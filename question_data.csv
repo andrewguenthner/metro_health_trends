@@ -1,0 +1,11 @@
+,QuestionID,Question
+0,BLOODCHO,Adults who have ever had their blood cholesterol checked
+1,DIABETE3,Have you ever been told by a doctor that you have diabetes?
+2,DRNKANY5,Adults who have had at least one drink of alcohol within the past 30 days
+3,_BMI5CAT,Weight classification by Body Mass Index (BMI) (variable calculated from one or more BRFSS questions)
+4,_HCVU651,Adults aged 18-64 who have any kind of health care coverage (variable calculated from one or more BRFSS questions)
+5,_RFCHOL,Adults who have had their blood cholesterol checked and have been told it was high (variable calculated from one or more BRFSS questions)
+6,_RFHLTH,Health Status (variable calculated from one or more BRFSS questions)
+7,_RFHYPE5,Adults who have been told they have high blood pressure (variable calculated from one or more BRFSS questions)
+8,_RFSMOK3,Adults who are current smokers (variable calculated from one or more BRFSS questions)
+9,_TOTINDA,"During the past month, did you participate in any physical activities? (variable calculated from one or more BRFSS questions)"
