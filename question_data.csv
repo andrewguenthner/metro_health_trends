@@ -9,3 +9,5 @@
 7,_RFHYPE5,Adults who have been told they have high blood pressure (variable calculated from one or more BRFSS questions)
 8,_RFSMOK3,Adults who are current smokers (variable calculated from one or more BRFSS questions)
 9,_TOTINDA,"During the past month, did you participate in any physical activities? (variable calculated from one or more BRFSS questions)"
+10,Custom_8,Adults with high blood cholesterol among those checked
+11,Custom_9,"Weight classification by Body Mass Index (BMI), custom"
