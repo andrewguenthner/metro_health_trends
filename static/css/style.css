@@ -1,0 +1,13 @@
+.states:hover {
+    fill : "red"
+}
+
+.w-sm-33 {
+    height: 50vw;
+}
+
+@media (min-width: 576px) {
+  .w-sm-33 {
+    height: 33vw !important;
+  }
+}

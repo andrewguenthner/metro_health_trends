@@ -1,0 +1,5 @@
+http://eric.clst.org/tech/usgeojson/ -- us state data, from census bureau
+
+Help with d3-geo:
+https://observablehq.com/@floledermann/drawing-maps-from-geodata-in-d3
+
