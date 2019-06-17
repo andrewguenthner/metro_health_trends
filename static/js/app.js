@@ -50,17 +50,26 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
     // Set chart dimensions
     const chartWidth = boxWidth - chartMargin.left - chartMargin.right;
     const chartHeight = boxHeight - chartMargin.top - chartMargin.bottom;
-    console.log(metroObj);
+ 
     // Extract the data we need into convenient forms
     // Each object item has a one-item array with data attributes
     // Get trendline parameters -- this is always a populated array
-    const trendParams = JSON.parse(metroObj[itemToPlot][0].param_list);
+    if (metroObj[itemToPlot][0]) {
+        var trendParams = JSON.parse(metroObj[itemToPlot][0].param_list);
+        }
+    else {
+        var trendParams = [0, 0, 0];
+    };
     // Get averages, lower, and upper limits -- these can have "nan" entries
     // JSON.parse cannot handle the "nan" entries, so we need to convert them to null
-    let dataString = metroObj[itemToPlot][0].mean_and_cl;
-    console.log(dataString);
-    dataString = dataString.replace(/nan/gi,"null");
-    console.log(dataString);
+    if (metroObj[itemToPlot][0]) {
+        var dataString = metroObj[itemToPlot][0].mean_and_cl;
+        dataString = dataString.replace(/nan/gi,"null");
+        }
+    else
+        {
+        var dataString = "[[null], [null]]";
+        };
     const dataLists = JSON.parse(dataString);
     const averages = dataLists[0];
     const lowerLimits = dataLists[1];
@@ -85,8 +94,8 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
     const yUpper = upperLimits.filter( function (upperLimit,i) {
         return (averages[i] && upperLimit)
         });  
-
-    if(xData) {
+  
+    if(xData.length > 0) {
         // Generate point data array
         const pointData = [];
         for(i =0; i < xData.length; i++) {
@@ -129,7 +138,7 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
 
         // create axes -- use date format for x-axis
         const xAxis = d3.axisBottom(xLinearScale).ticks(9).tickFormat(d3.format("d"));
-        const yAxis = d3.axisLeft(yLinearScale).ticks(6);
+        const yAxis = d3.axisLeft(yLinearScale).ticks(5);
 
         // append axes
         chart_g1.append("g")
@@ -230,7 +239,7 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
 function buildUSMap() {
 // Build US map for metro area projection
 
-//Code based on the following source:
+//Code for US states based on the following source:
 //Michelle Chandra’s Block 0b2ce4923dc9b5809922
 //Updated May 29, 2019, on bl.ocks.org
 
@@ -242,7 +251,7 @@ function buildUSMap() {
     // D3 Projection
     const projection = d3.geoAlbersUsa()
                     .translate([map0Width/2, map0Height/2])    // translate to center of screen
-                    .scale([900]);          // scale things down so see entire US
+                    .scale([map0Width]);          // scale things down so see entire US
             
     // Define path generator
     const path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
@@ -272,7 +281,8 @@ function buildUSMap() {
     // Extract location data
    return d3.csv("../static/data/location_data.csv")
     }).then (function(metros){
-        // Correctly format the GeoLocation data
+
+    // Correctly format the GeoLocation data
        metros.forEach( function(metro) {
            metro.GeoLocation = metro.GeoLocation.replace("(","").replace(")","").split(",").reverse()
        });
@@ -283,11 +293,14 @@ function buildUSMap() {
        metroData = metros;
        return d3.csv("../static/data/BRFSS_2011_to_2017.csv")
     }).then ( function(trends) {
-       
+        // Incorporate the health data attributes
+        // Initialize a tracker for which metro was selected, default to 0
+        let thisMetroIndex = 0;
         metroData.forEach( function(metro) {
             questionSet = trends.filter( function(trend) {
             return (trend.Locationabbr == metro.Locationabbr)
             });
+            // Behaviors - set 1
             metro['hasInsurance'] = questionSet.filter( function (question) {
                 return (question.QuestionID == "_HCVU651");
             });
@@ -295,7 +308,7 @@ function buildUSMap() {
                 return (question.QuestionID == "BLOODCHO");
             });
             metro['exercise'] = questionSet.filter( function (question) {
-            return (question.QuestionID == "_TOTINDA");
+                return (question.QuestionID == "_TOTINDA");
             });
             metro['alcohol'] = questionSet.filter( function (question) {
                 return (question.QuestionID == "DRNKANY5");
@@ -303,9 +316,31 @@ function buildUSMap() {
             metro['smoking'] = questionSet.filter( function (question) {
                 return (question.QuestionID == "_RFSMOK3");
             });
+            // Risk factor outcomes -- set 2
+            metro['genHealth'] = questionSet.filter( function (question) {
+                return (question.QuestionID == "_RFHLTH");
+            });
+            metro['overweight'] = questionSet.filter( function (question) {
+                return (question.QuestionID == "Custom_9");
+            });
+            metro['diabetes'] = questionSet.filter( function (question) {
+                return (question.QuestionID == "DIABETE3");
+            });
+            metro['highBP'] = questionSet.filter( function (question) {
+                return (question.QuestionID == "_RFHYPE5");
+            });
+            metro['highChol'] = questionSet.filter( function (question) {
+                return (question.QuestionID == "Custom_8");
+            });
         });
    
-       const metroGroup = svg_0.append("g")
+        const selectedMet = svg_0.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", `translate(${map0Width / 2}, ${0.1 * map0Height})`)
+            .classed("metro-selected", true)
+            .text("No metro selected yet");     
+
+        const metroGroup = svg_0.append("g")
             .attr("id","metros");                   
 
         const circlesGroup = metroGroup.selectAll("circle")
@@ -346,13 +381,45 @@ function buildUSMap() {
                 toolTip.hide(d);
             });
         
-        circlesGroup.on("click", function(d) {
-            buildChart("ts_1", d, "hasInsurance", "Health Insurance (Adults 18-64)", "Covered (%)");
-            buildChart("ts_2", d, "getsChecked", "Cholesterol Screening (Adults)", "Checked (%)");
-            buildChart("ts_3", d, "exercise","Physically Active (Last 30 Days)", "Active (%)");
-            buildChart("ts_4", d, "alcohol", "Adults Consuming Alcohol (Last 30 Days)","Drinkers (%)");
-            buildChart("ts_5", d, "smoking", "Current Smokers", "Smokers (%)");
+        circlesGroup.on("click", function(d,i) {
+            selectedMet.text(`${d.Simpledesc} selcted`);
+            thisMetroIndex = i;
+            const displayChoice = d3.select('input[name="displaySet"]:checked').node().value;
+            if (displayChoice == "risks") {
+                buildChart("ts_1", d, "genHealth", "Self-Reported Health Status", "Felt Good (%)");
+                buildChart("ts_2", d, "overweight", "Overweight Prevalence", "BMI > 25 (%)");
+                buildChart("ts_3", d, "diabetes","Diabetes Prevalence", "Had Diabetes (%)");
+                buildChart("ts_4", d, "highBP", "Hypertension Prevalence","Had High B.P. (%)");
+                buildChart("ts_5", d, "highChol", "High Cholesterol Prevalence", "Had High Chol. (% of Checked)");
+                }
+            else {
+                buildChart("ts_1", d, "hasInsurance", "Health Insurance (Adults 18-64)", "Covered (%)");
+                buildChart("ts_2", d, "getsChecked", "Cholesterol Screening (Adults)", "Checked (%)");
+                buildChart("ts_3", d, "exercise","Physically Active (Last 30 Days)", "Active (%)");
+                buildChart("ts_4", d, "alcohol", "Adults Consuming Alcohol (Last 30 Days)","Drinkers (%)");
+                buildChart("ts_5", d, "smoking", "Current Smokers", "Smokers (%)");
+                };
             });
+
+        d3.selectAll('input[name="displaySet"]').on("change", function () {
+            const displayChoice = this.value;
+            selectedMet.text(`${metroData[thisMetroIndex].Simpledesc} selected`);
+            if (displayChoice == "risks") {
+                buildChart("ts_1", metroData[thisMetroIndex], "genHealth", "Self-Reported Health Status", "Felt Good (%)");
+                buildChart("ts_2", metroData[thisMetroIndex], "overweight", "Overweight Prevalence", "BMI > 25 (%)");
+                buildChart("ts_3", metroData[thisMetroIndex], "diabetes","Diabetes Prevalence", "Had Diabetes (%)");
+                buildChart("ts_4", metroData[thisMetroIndex], "highBP", "Hypertension Prevalence","Had High B.P. (%)");
+                buildChart("ts_5", metroData[thisMetroIndex], "highChol", "High Cholesterol Prevalence", "Had High Chol. (% of Checked)");
+                }
+            else {
+                buildChart("ts_1", metroData[thisMetroIndex], "hasInsurance", "Health Insurance (Adults 18-64)", "Covered (%)");
+                buildChart("ts_2", metroData[thisMetroIndex], "getsChecked", "Cholesterol Screening (Adults)", "Checked (%)");
+                buildChart("ts_3", metroData[thisMetroIndex], "exercise","Physically Active (Last 30 Days)", "Active (%)");
+                buildChart("ts_4", metroData[thisMetroIndex], "alcohol", "Adults Consuming Alcohol (Last 30 Days)","Drinkers (%)");
+                buildChart("ts_5", metroData[thisMetroIndex], "smoking", "Current Smokers", "Smokers (%)");
+                };
+            });
+
         });
         }
 

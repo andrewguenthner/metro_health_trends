@@ -47,7 +47,23 @@
           </div>
         </nav>
         <!--Main body on landing page, grid for maps-->
-    <h1>Health Indicators by Metro Area</h1>
+    <!-- Title info area-->
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <h2 style="text-align:center">Health Indicators by Metro Area</h2>
+        </div>
+        <div class="col-12 col-sm-4">
+          <strong>Show: </strong>
+          <input type="radio" name="displaySet" value="behaviors" id="behaviors" checked>   
+          <label for="behaviors"><strong>Behaviors</strong></label>
+          <input type="radio" name="displaySet" value="risks" id="risks">
+          <label for="risks"><strong>Risks</strong></label>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Map and charts area-->
     <div class="container">
       <div class="row w-sm-33">
         <div class="col-12 col-sm-8">
