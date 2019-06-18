@@ -24,10 +24,10 @@ function makeBorderStyle (trendType) {
             return ("2px solid darkred")
             break;
         case "+-":
-            return ("2px dotted darkred")
+            return ("2px dotted palegreen")
             break;
         case "-+":
-            return ("2px dotted palegreen")
+            return ("2px dotted darkred")
             break;
         case "++":
             return ("4px solid palegreen")
@@ -55,22 +55,14 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
     // Each object item has a one-item array with data attributes
     // Get trendline parameters -- this is always a populated array
     if (metroObj[itemToPlot][0]) {
-        var trendParams = JSON.parse(metroObj[itemToPlot][0].param_list);
+        var trendParams = metroObj[itemToPlot][0].param_list;
+        var dataLists = metroObj[itemToPlot][0].mean_and_cl;
         }
     else {
         var trendParams = [0, 0, 0];
+        var dataLists = [[null],[null]];
     };
-    // Get averages, lower, and upper limits -- these can have "nan" entries
-    // JSON.parse cannot handle the "nan" entries, so we need to convert them to null
-    if (metroObj[itemToPlot][0]) {
-        var dataString = metroObj[itemToPlot][0].mean_and_cl;
-        dataString = dataString.replace(/nan/gi,"null");
-        }
-    else
-        {
-        var dataString = "[[null], [null]]";
-        };
-    const dataLists = JSON.parse(dataString);
+
     const averages = dataLists[0];
     const lowerLimits = dataLists[1];
     const upperLimits = averages.map( function (mean, i) {
@@ -111,7 +103,8 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
         // Create SVG
         const svg_1 = d3.select(`#${chartID}`)
             .html("")
-			.append("svg")
+            .append("svg")
+            .classed(`chart-${itemToPlot}`,true)
 			.attr("width", boxWidth)
             .attr("height", boxHeight)
             .style("border", makeBorderStyle(metroObj[itemToPlot][0].trend_class));
@@ -173,7 +166,7 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
         
         const symbolPath = symbolGenerator();
 
-        chart_g1.selectAll(".point")
+        const dataPoints = chart_g1.selectAll(".point")
             .data(pointData)
             .enter()
             .append("path")
@@ -181,6 +174,57 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
             .attr("d", symbolPath)
             .attr("transform", function(d) { return "translate(" + xLinearScale(d.x) + "," + yLinearScale(d.y) + ")"; })
             .attr("fill","#24009C");
+
+        dataPoints.on("click", function (d,i) {
+            // Figure out which year this is using non-null count
+            // and set up alternative index 'j'
+            let j = d.x - 2011;
+            const comparatorString = `${years[j]} ${chartTitle}`;
+            const svg_map = d3.select("#map_0").select("svg");
+            const mapWidth = +svg_map.style("width").slice(0,-2);
+            const mapHeight = +svg_map.style("height").slice(0,-2);
+
+            svg_map.selectAll(".comparator-selected")
+                .html("");
+
+            svg_map.append("text")
+                .attr("text-anchor", "middle")
+                .attr("transform", `translate(${mapWidth / 2}, ${0.15 * mapHeight})`)
+                .classed("comparator-selected", true)
+                .text(comparatorString);     
+                
+            let circleFills = [];
+            let maxValue = 0;
+            let minValue = 100;
+            metroData.forEach( function(metro) {
+                if (metro[itemToPlot].length > 0) {
+                    let dataValue = metro[itemToPlot][0].mean_and_cl[0][j];
+                    circleFills.push(dataValue);
+                    if (dataValue && (dataValue > maxValue)) {
+                        maxValue = dataValue;
+                    };
+                    if (dataValue && (dataValue < minValue)) {
+                        minValue = dataValue;
+                    };
+                }
+                else {
+                    circleFills.push(-1);
+                };
+            });
+            console.log(minValue, maxValue);
+            let viridisColor = d3.scaleSequential().domain([minValue,maxValue])
+                .interpolator(d3.interpolateViridis)
+            d3.selectAll("circle").each(function (d,i) {
+                let dataValue = circleFills[i];
+                if ((dataValue < minValue) || !dataValue) {
+                    d3.select(this).attr("fill", "#777")
+                }
+                else {
+                d3.select(this).attr("fill",viridisColor(dataValue));
+                }
+            });
+        });
+
             // error bars - main step
         chart_g1.selectAll('line.error-main')
             .data(pointData)
@@ -293,6 +337,16 @@ function buildUSMap() {
        metroData = metros;
        return d3.csv("../static/data/BRFSS_2011_to_2017.csv")
     }).then ( function(trends) {
+        // Parse the mean_and_cl and trend_params of each line of data
+        // turning them into arrays
+        trends.forEach( function(trend) {
+            let dataString = trend.mean_and_cl;
+            dataString = dataString.replace(/nan/gi,"null");
+            let dataLists = JSON.parse(dataString);
+            trend.mean_and_cl = dataLists;
+            let trend_params = JSON.parse(trend.param_list);
+            trend.param_list = trend_params;
+        });
         // Incorporate the health data attributes
         // Initialize a tracker for which metro was selected, default to 0
         let thisMetroIndex = 0;
@@ -417,8 +471,12 @@ function buildUSMap() {
                 buildChart("ts_3", metroData[thisMetroIndex], "exercise","Physically Active (Last 30 Days)", "Active (%)");
                 buildChart("ts_4", metroData[thisMetroIndex], "alcohol", "Adults Consuming Alcohol (Last 30 Days)","Drinkers (%)");
                 buildChart("ts_5", metroData[thisMetroIndex], "smoking", "Current Smokers", "Smokers (%)");
-                };
+                
+            };
             });
+
+            
+            
 
         });
         }
