@@ -53,6 +53,12 @@
 
 @media (min-width: 760px) {
   #graph-1, #graph-2, #graph-3, #graph-4, #graph-5, #graph-6, #graph-7, #graph-8, #graph-9, #graph-10 {
+    height: 45vw !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #graph-1, #graph-2, #graph-3, #graph-4, #graph-5, #graph-6, #graph-7, #graph-8, #graph-9, #graph-10 {
     height: 35vw !important;
   }
 }
