@@ -211,7 +211,7 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
                     circleFills.push(-1);
                 };
             });
-            console.log(minValue, maxValue);
+
             let viridisColor = d3.scaleSequential().domain([minValue,maxValue])
                 .interpolator(d3.interpolateViridis)
             d3.selectAll("circle").each(function (d,i) {
@@ -223,6 +223,24 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
                 d3.select(this).attr("fill",viridisColor(dataValue));
                 }
             });
+
+            let cb = colorbarV(viridisColor, 0.03 * mapWidth,0.2 * mapHeight);
+            svg_map.selectAll("#colorbar")
+                .html("");
+
+             svg_map.append("g")
+                .attr("id","colorbar")
+                .attr("transform",`translate(${mapWidth * 0.9},${mapHeight * 0.6})`)
+                .call(cb);
+
+            svg_map.selectAll("#colorbar-label")
+                .html("");
+
+            svg_map.append("text")
+                .attr("text-anchor","middle")
+                .attr("transform",`translate(${mapWidth * 0.9},${mapHeight * 0.55})`)
+                .attr("id","colorbar-label")
+                .text(yAxisText);
         });
 
             // error bars - main step
@@ -275,7 +293,7 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
         d3.select(`#${chartID}`)
             .style("text-align","center")
             .style("padding", "5px 0")
-            .html("No data available")
+            .html(`${chartTitle}<br>No data available`)
     }
 }
 
@@ -436,7 +454,7 @@ function buildUSMap() {
             });
         
         circlesGroup.on("click", function(d,i) {
-            selectedMet.text(`${d.Simpledesc} selcted`);
+            selectedMet.text(`${d.Simpledesc} selected`);
             thisMetroIndex = i;
             const displayChoice = d3.select('input[name="displaySet"]:checked').node().value;
             if (displayChoice == "risks") {

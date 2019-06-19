@@ -1,0 +1,128 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Local CSS-->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Load D3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+
+    <title>Summary of Behavioral Health Trends</title>
+  </head>
+  <body>
+        <!--Collapsable navigation bar: common to all pages-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+          <img src="../static/images/Guenthner-extra-small.png" width="28" height="35" class="d-inline-block align-top rounded-circle mr-3" alt="">
+          <a class="navbar-brand" href="https://andrewguenthner.com">Andrew Guenthner</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Metro Health Trends <span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              <li class="nav-item-dropdown">
+                  <a class="nav-link dropdown-toggle text-light" href="#" id="SlideMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Pages
+                  </a>
+                <div class="dropdown-menu dropdown-menu-right" id="#SlideMenu">
+                  <a class="dropdown-item" href="about.html">About</a>
+                  <a class="dropdown-item" href="summary.html">Summary Graphs</a>
+                  <a class="dropdown-item" href="index.html">Metro Visualization</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!--Main body on summary page, graphs -->
+        <!-- Title Area-->
+        <div class="container-fluid" id="title-area">
+          <div class="row" id="row-1">
+              <div class="col-12" id="title-box">
+                <h2>Summary of Trends</h2>
+                <p>Trends in health indicators for 259 metropolitan and micropolitan areas were summarized
+                    according to the following classification scheme.
+                </p>
+                <ul>
+                <Li class="pos-acc">Positive trend (in terms of health), improvement accelerating</li>
+                <Li class="pos-steady">Positive trend (in terms of health), improvement steady</li>
+                <Li class="pos-rev">Positive trend (in terms of health), improvement slowing / reversing</li> 
+                <Li class="trend-neutral">No discernible trend</li>
+                <Li class="neg-rev">Negative trend (in terms of health), decline slowing / reversing</li>
+                <Li class="neg-steady">Negative trend (in terms of health), decline steady</li>
+                <Li class="neg-acc">Negative trend (in terms of health), decline accelerating</li>
+                </ul>
+              </div>
+            </div>
+        </div>
+        <!-- Graphics Area-->
+        <div class="container-fluid" id="graphs-area">
+            <div class="row" id="row-1">
+                <div class="col-12 col-md-6" id="graph-1">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <div class="col-12 col-md-6" id="graph-2">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <!-- Force next columns to break to new line at md breakpoint and up -->
+                <div class="w-100 d-none d-md-block"></div>
+            </div>
+            <div class="row" id="row-2">
+                <div class="col-12 col-md-6" id="graph-3">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <div class="col-12 col-md-6" id="graph-4">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <!-- Force next columns to break to new line at md breakpoint and up -->
+                <div class="w-100 d-none d-md-block"></div>
+            </div>
+            <div class="row" id="row-3">
+                <div class="col-12 col-md-6" id="graph-5">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <div class="col-12 col-md-6" id="graph-6">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <!-- Force next columns to break to new line at md breakpoint and up -->
+                <div class="w-100 d-none d-md-block"></div>
+            </div>
+            <div class="row" id="row-4">
+                <div class="col-12 col-md-6" id="graph-7">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <div class="col-12 col-md-6" id="graph-8">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <!-- Force next columns to break to new line at md breakpoint and up -->
+                <div class="w-100 d-none d-md-block"></div>
+            </div>
+            <div class="row" id="row-5">
+                <div class="col-12 col-md-6" id="graph-9">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <div class="col-12 col-md-6" id="graph-10">
+                    <p>Summary graph will appear here</p>
+                </div>
+                <!-- Force next columns to break to new line at md breakpoint and up -->
+                <div class="w-100 d-none d-md-block"></div>
+            </div>
+        </div>
+    <!-- Regular JavaScript -->
+    <script type="text/javascript" src="../static/js/summary-app.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

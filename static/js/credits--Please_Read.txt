@@ -1,0 +1,11 @@
+Credits:
+
+Code from the following sources was used per licenses as described.
+
+The colorbar code is a slightly modified version of d3-colorbar by
+Trang Tran.  The original GitHub repository is at:
+https://github.com/ttdtrang/d3-colorbar
+
+The license for this code is included as "d3-colorbar-LICENSE.txt" -- 
+the license must be preserved if the code is transmitted
+
