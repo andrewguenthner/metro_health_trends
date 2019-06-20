@@ -65,31 +65,40 @@
     
     <!-- Map and charts area-->
     <div class="container">
-      <div class="row w-sm-33">
-        <div class="col-12 col-sm-8">
+      <div class="row row-1">
+        <div class="col-8">
           <div class="h-100" id="map_0"></div>
         </div>
-        <div class="col-12 col-sm-4">
+        <div class="col-4">
           <div class="h-50" id="ts_1">Select a circle on the map <br> to show data for a metropolitan area.</div>
           <div class="h-50" id="ts_2">Select a circle on the map <br> to show data for a metropolitan area.</div>
         </div>
         <!-- Force next columns to break to new line at sm breakpoint and up -->
         <div class="w-100 d-none d-sm-block"></div>
-    
-        <div class="col-12 col-sm-4">
-          <div class="h-50" id="ts_3">Select a circle on the map <br> to show data for a metropolitan area.</div>
+      </div> <!--row 1-->
+      <div class="row row-2">
+        <div class="col-4">
+          <div class="h-100" id="ts_3">Select a circle on the map <br> to show data for a metropolitan area.</div>
         </div>
-        <div class="col-12 col-sm-4">
-          <div class="h-50" id="ts_4">Select a circle on the map <br> to show data for a metropolitan area.</div>
+        <div class="col-4">
+          <div class="h-100" id="ts_4">Select a circle on the map <br> to show data for a metropolitan area.</div>
         </div>
-        <div class="col-12 col-sm-4">
-          <div class="h-50" id="ts_5">Select a circle on the map <br> to show data for a metropolitan area.</div>
+        <div class="col-4 d-block">
+          <div class="h-100" id="ts_5">Select a circle on the map <br> to show data for a metropolitan area.</div>
         </div>
+        <div class="w-100 d-block"></div>
       </div> <!-- 'row' class-->
     </div>  <!-- 'container' class -->
-    <!-- Regular JavaScript -->
-    <script type="text/javascript" src="../static/js/colorbar.js"></script>
-    <script type="text/javascript" src="../static/js/app.js"></script>
+    <!-- Regular JavaScript -- put here so that page layout is locked prior to drawing footer-->
+        <script type="text/javascript" src="../static/js/colorbar.js"></script>
+        <script type="text/javascript" src="../static/js/app.js"></script>
+    <!-- Page footer-->
+    <div class="container mt-2 mt-md-5 text-light bg-secondary">
+      Last updated 06-20-2019 by Andrew Guenthner.  Released under the 
+      <a class="container-link text-warning" href="https://opensource.org/licenses/MIT" target="_blank">
+          MIT Open Source License</a>, with some elements governed by specific licenses.  Please consult the project documentation
+          on <a href="https://github.com/andrewguenthner/metro_health_trends" target="_blank">Github</a> for details.
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

@@ -37,17 +37,25 @@
   fill : #8c510a;
 }
 
-.w-sm-33 {
-    height: 50vw;
+.row-1 {
+  height: 50vw;
+}
+
+.row-2 {
+  height: 25vw;
 }
 
 #graph-1, #graph-2, #graph-3, #graph-4, #graph-5, #graph-6, #graph-7, #graph-8, #graph-9, #graph-10 {
     height: 70vw;
 }
-
 @media (min-width: 576px) {
-  .w-sm-33 {
-    height: 33vw !important;
+
+  .row-1 {
+    height: 34vw;
+  }
+
+  .row-2 {
+    height: 17vw;
   }
 }
 
