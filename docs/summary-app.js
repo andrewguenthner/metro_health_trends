@@ -54,7 +54,7 @@ function getGraphTitle(itemKey) {
 }
 // Fetch file
 function drawGraphs() {
-    d3.csv("../static/data/trend_data.csv").then( function(trendTypeData) {
+    d3.csv("trend_data.csv").then( function(trendTypeData) {
         // Convert from array of objects to object of arrays, skipping blank keys
         // and converting text to numbers
         let trendArrays = {};
