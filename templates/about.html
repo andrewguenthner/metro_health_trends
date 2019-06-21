@@ -53,7 +53,7 @@
                 </p>
               </div>
               <div class="col-12 col-md-6" id="info-box">
-                <h3>More Information</h3>
+                <h2>More Information</h2>
                 <ul>
                   <li>See data for <a href="index.html">individual metro areas</a>.</li>
                   <li>See <a href="summary.html">summary data</a>.</li>
@@ -101,6 +101,7 @@
         <table class="table table-striped">
                 <thead>
                   <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Question ID</th>
                     <th scope="col">Question Text</th>
                     <th scope="col">Answer IDs</th>
@@ -110,9 +111,10 @@
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>_HCVU651</td>
+                    <td>Adults aged 18-64 who have any kind of health care coverage </td>
+                    <td>RESP046 "Yes" (+CDC calculation)</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
                   </tr>
                   <tr>
                     <th scope="row">2</th>
@@ -123,34 +125,38 @@
                   </tr>
                   <tr>
                     <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>_TOTINDA</td>
+                    <td>During the past month, did you participate in any physical activities? </td>
+                    <td>RESP046 "Yes"</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
                   </tr>
                   <tr>
                     <th scope="row">4</th>
                     <td>DRNKANY5</td>
                     <td>Adults who have had at least one drink of alcohol within the past 30 days</td>
-                    <td>RESP046 "Yes"</td>
+                    <td>RESP046 "Yes" (CDC calculation) </td>
                     <td>"Yes" / Total as estimated by CDC</td>
                     </tr>
                     <tr>
                     <th scope="row">5</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>_RFSMOK</td>
+                    <td>Adults who are current smokers (per CDC calculation)</td>
+                    <td>RESP046 "Yes"</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
                     </tr>
                     <tr>
                     <th scope="row">6</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>_RFHLTH</td>
+                    <td>Health Status</td>
+                    <td>RESP061 ("Good" or better) (CDC calculated)</td>
+                    <td>"Good" or better / Total as estimated by collected</td>
                     </tr>
                     <tr>
                     <th scope="row">7</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>Custom (based on _BMI5CAT)</td>
+                    <td>Body Mass Index 5-category</td>
+                    <td>"RESP039" and "RESP040" (CDC calculations)</td>
+                    <td>Body Mass Index > 25.0 / Total (based on sum of 25.5-29.9 and 30.0+ categories)</td>
                     </tr>
                     <tr>
                     <th scope="row">8</th>
@@ -161,14 +167,16 @@
                     </tr>
                     <tr>
                     <th scope="row">9</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>_RFHYPE5</td>
+                    <td>Adults who have been told they have high blood pressure</td>
+                    <td>RESP046 "Yes" (+CDC calculation)</td>
+                    <td> "Yes" / Total as estimated by CDC</td>
                     </tr>
                     <th scope="row">10</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                    <td>Custom (_RFCHOL & BLOODCHO)</td>
+                    <td>Adults who have been told blood cholesterol was high / Adults who have ever had it checked </td>
+                    <td>Custom (based on multiple RESP046 "Yes")</td>
+                    <td>_RFCHOL "Yes" / Total divided by BLOODCHO "Yes" / Total</td>
                     </tr>
                 </tbody>
               </table>
