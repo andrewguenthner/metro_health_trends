@@ -1,0 +1,72 @@
+.bar:hover {
+  fill: yellow;
+}
+
+.pos-acc {
+  color : #01665e;
+  fill: #01665e;
+}
+
+.pos-steady {
+  color : #35978f;
+  fill : #35978f;
+}
+
+.pos-rev {
+  color : #80cdd1;
+  fill : #80cdd1;
+}
+
+.trend-neutral {
+  color : #c7bc9d;
+  fill : #c7bc9d;
+}
+
+.neg-rev {
+  color : #dfc27d;
+  fill : #dfc27d;
+}
+
+.neg-steady {
+  color : #bf812d;
+  fill : #bf812d;
+}
+
+.neg-acc {
+  color : #8c510a;
+  fill : #8c510a;
+}
+
+.row-1 {
+  height: 50vw;
+}
+
+.row-2 {
+  height: 25vw;
+}
+
+#graph-1, #graph-2, #graph-3, #graph-4, #graph-5, #graph-6, #graph-7, #graph-8, #graph-9, #graph-10 {
+    height: 70vw;
+}
+@media (min-width: 576px) {
+
+  .row-1 {
+    height: 34vw;
+  }
+
+  .row-2 {
+    height: 17vw;
+  }
+}
+
+@media (min-width: 760px) {
+  #graph-1, #graph-2, #graph-3, #graph-4, #graph-5, #graph-6, #graph-7, #graph-8, #graph-9, #graph-10 {
+    height: 45vw !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #graph-1, #graph-2, #graph-3, #graph-4, #graph-5, #graph-6, #graph-7, #graph-8, #graph-9, #graph-10 {
+    height: 35vw !important;
+  }
+}
