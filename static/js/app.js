@@ -1,4 +1,7 @@
 // Set global properties and functions
+let mapData = [];
+let metroData = [];
+let thisMetroIndex = 0;
 
 // Margins for charts
 function chartMargin(width)  {
@@ -522,13 +525,13 @@ function buildChart(chartID, metroObj, itemToPlot, chartTitle, yAxisText)   {
         }
 }
 
-
 function buildUSMap() {
 // Build US map for metro area projection
 
 //Code for US states based on the following source:
 //Michelle Chandra’s Block 0b2ce4923dc9b5809922
-//Updated May 29, 2019, on bl.ocks.org
+//Updated May 29, 2019, on bl.ocks.org -- modified 
+
     const mapObj = document.getElementById("map_0")
     const map0Width = mapObj.clientWidth;
     const map0Height = mapObj.clientHeight;
@@ -558,9 +561,8 @@ function buildUSMap() {
         .attr("fill","#777")
         .attr("stroke","#FFF")
         .attr("stroke-width",1);
-    // In case the metros were drawn first, re-draw them over the states
-    //svg_0.append("use")
-    //   .attr("xlink:href","#metros");
+    // Save this data for redraw without the need to reload
+    mapData = usMap.features;
 
     // Extract location data
    return d3.csv("../static/data/location_data.csv")
@@ -574,6 +576,7 @@ function buildUSMap() {
            metro.GeoLocation[0] = +metro.GeoLocation[0];
            metro.GeoLocation[1] = +metro.GeoLocation[1]
        });
+       // Save the data for later use
        metroData = metros;
        return d3.csv("../static/data/BRFSS_2011_to_2017.csv")
     }).then ( function(trends) {
@@ -588,8 +591,7 @@ function buildUSMap() {
             trend.param_list = trend_params;
         });
         // Incorporate the health data attributes
-        // Initialize a tracker for which metro was selected, default to 0
-        let thisMetroIndex = 0;
+
         metroData.forEach( function(metro) {
             questionSet = trends.filter( function(trend) {
             return (trend.Locationabbr == metro.Locationabbr)
@@ -711,18 +713,130 @@ function buildUSMap() {
                 buildChart("ts_3", metroData[thisMetroIndex], "exercise", "Physical Activity", "Active (%)");
                 buildChart("ts_4", metroData[thisMetroIndex], "alcohol", "Alcohol Use","Drinkers (%)");
                 buildChart("ts_5", metroData[thisMetroIndex], "smoking", "Smoking", "Smokers (%)");
-                
             };
-            });
-
-            
-            
-
         });
+    });
+}
+
+function redrawAll(metroIndex) {
+
+    const mapObj = document.getElementById("map_0")
+    const map0Width = mapObj.clientWidth;
+    const map0Height = mapObj.clientHeight;
+    // D3 Projection
+    const projection = d3.geoAlbersUsa()
+                    .translate([map0Width * 0.45, map0Height * 0.5])    // translate to center of screen
+                    .scale([map0Width]);          // scale things down so see entire US
+            
+    // Define path generator
+    const path = d3.geoPath()               // path generator that will convert GeoJSON to SVG paths
+                .projection(projection);  // tell path generator to use albersUsa projection
+                
+    //Create SVG element and append map to the SVG
+    const svg_0 = d3.select("#map_0")
+                .html("")
+                .append("svg")
+                .attr("width", map0Width)
+                .attr("height", map0Height);
+
+    // Bind the data to the SVG and create one path per state
+    svg_0.selectAll("path")
+        .classed("states",true)
+        .data(mapData)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("fill","#777")
+        .attr("stroke","#FFF")
+        .attr("stroke-width",1);
+    
+    const selectedMet = svg_0.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", `translate(${map0Width / 2}, ${0.1 * map0Height})`)
+        .classed("metro-selected", true)
+        .text(`${metroData[thisMetroIndex].Simpledesc} selected`);    
+
+    const metroGroup = svg_0.append("g")
+        .attr("id","metros");                   
+
+    const circlesGroup = metroGroup.selectAll("circle")
+        .data(metroData)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+            let coords = projection(d.GeoLocation);
+            return (coords ? +coords[0] : map0Width - 20) 
+        })
+        .attr("cy", function (d, i) {
+            let coords = projection(d.GeoLocation);
+            return (coords ? +coords[1] : map0Height * 0.4 + 0.2 * i / metroData.length )
+        })
+        .attr("r","5px")
+        .attr("fill","purple")
+        .attr("stroke","#FFF")
+        .attr("stroke-width","1px");
+            
+    const toolTip = d3.tip()
+        .attr("class", "tooltip")
+        .offset([40, 40])
+        .style("background-color","lightyellow")
+        .style("border","1px solid black")
+        .style("border-radius","5px")
+        .html(function(d) {
+            return (d.Simpledesc);
+        });
+    
+        //Create the tooltip in map.
+    circlesGroup.call(toolTip);
+            
+        // Event listeners
+    circlesGroup.on("mouseover", function(d) {
+        toolTip.show(d, this);
+        })
+        .on("mouseout", function(d) {
+            toolTip.hide(d);
+        });
+        
+    circlesGroup.on("click", function(d,i) {
+        selectedMet.text(`${d.Simpledesc} selected`);
+        thisMetroIndex = i;
+        const displayChoice = d3.select('input[name="displaySet"]:checked').node().value;
+        if (displayChoice == "risks") {
+            buildChart("ts_1", d, "genHealth", "Health Status", "Felt Good (%)");
+            buildChart("ts_2", d, "overweight", "Overweight/Obesity", "BMI > 25 (%)");
+            buildChart("ts_3", d, "diabetes","Diabetes", "Had Diabetes (%)");
+            buildChart("ts_4", d, "highBP", "Hypertension","Had High B.P. (%)");
+            buildChart("ts_5", d, "highChol", "High Cholesterol", "Had High Chol. (%)");
         }
+        else {
+            buildChart("ts_1", d, "hasInsurance", "Health Insurance", "Covered (%)");
+            buildChart("ts_2", d, "getsChecked", "Cholesterol Screening", "Checked (%)");
+            buildChart("ts_3", d, "exercise","Physical Activity", "Active (%)");
+            buildChart("ts_4", d, "alcohol", "Alcohol Use","Drinkers (%)");
+            buildChart("ts_5", d, "smoking", "Smoking", "Smokers (%)");
+        };
+    });      
 
+    let displayChoice = d3.selectAll('input[name="displaySet"]').value;
+    console.log(displayChoice);
 
+    if (displayChoice == "risks") {
+        buildChart("ts_1", metroData[thisMetroIndex], "genHealth", "Health Status", "Felt Good (%)");
+        buildChart("ts_2", metroData[thisMetroIndex], "overweight", "Overweight/Obesity", "BMI > 25 (%)");
+        buildChart("ts_3", metroData[thisMetroIndex], "diabetes","Diabetes", "Had Diabetes (%)");
+        buildChart("ts_4", metroData[thisMetroIndex], "highBP", "Hypertension","Had High B.P. (%)");
+        buildChart("ts_5", metroData[thisMetroIndex], "highChol", "High Cholesterol", "Had High Chol. (%)");
+        }
+    else {
+        buildChart("ts_1", metroData[thisMetroIndex], "hasInsurance", "Health Insurance", "Covered (%)");
+        buildChart("ts_2", metroData[thisMetroIndex], "getsChecked", "Cholesterol Screening", "Checked (%)");
+        buildChart("ts_3", metroData[thisMetroIndex], "exercise", "Physical Activity", "Active (%)");
+        buildChart("ts_4", metroData[thisMetroIndex], "alcohol", "Alcohol Use","Drinkers (%)");
+        buildChart("ts_5", metroData[thisMetroIndex], "smoking", "Smoking", "Smokers (%)");
+    };
+}
 
 // Main program
 buildUSMap();
 
+window.addEventListener("resize",redrawAll);
