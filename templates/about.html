@@ -65,19 +65,20 @@
         <div class="container-fluid" id="source-area">
             <h3>About the Data</h3>
         <p>
-            The United States Centers for Disease Control maintains a database of 
-            behavioral health risk factors survey data.  This data is freely available
-            for download.  Numerous visualizations are also available.
+            The United States <a href="https://www.cdc.gov/" target="_blank">Centers for Disease Control</a> maintains a database of 
+            <a href="https://www.cdc.gov/brfss/" target="_blank">behavioral health risk factors survey data</a>.  This data is freely available
+            for <a href="https://chronicdata.cdc.gov/Behavioral-Risk-Factors/Behavioral-Risk-Factors-Selected-Metropolitan-Area/j32a-sa6u" target="_blank">
+            download</a>a.  Numerous <a href="https://www.cdc.gov/brfss/brfssprevalence/index.html" target="_blank">visualizations</a> are also available.
         </p>
         <p>
-            Most visualizations either capture current values on a chloropleth or heat map,
+            Most geographic visualizations either capture current values on a chloropleth or heat map,
             or they capture trends using a line chart.  Sometimes, though, it is useful to
             see both the spatial and temporal trends in one graphic, which is why this 
             visualization tool was made.
         </p>
         <p>
             For this tool, ten specific indicators were chosen based on the recorded summary 
-            of survey responses.  Eight of these indicators come directly from specific categories 
+            of CDC BRFSS survey responses.  Eight of these indicators come directly from specific categories 
             directly computed by the CDC and made available as part of the data.
         </p>
         <p> 
@@ -206,7 +207,9 @@
             with inverse variance weighting), and based on common assumptions about what constituted a 
             "healthy" change.  Specifically, increases in diabetes, hypertension, overweight/obesity, and 
             high blood cholesterol prevalence were "unhealthy", as were increases in alcohol consumption and smoking 
-            prevalence.  Increase in physical activity, blood cholesterol screening, health insurance coverage, and
+            prevalence.  When these trends are described with the term "decline", it means that they indicate a decline 
+            in the health of the population, not that the prevalence itself is declining.  I have always tried to make this
+            distinction clear in the visualizations.  Increases in physical activity, blood cholesterol screening, health insurance coverage, and
             self-reported general health were considered "healthy".  
         </p>
         <p>
@@ -294,9 +297,14 @@
             <p>If you're still reading after all that, then you probably like data as much as I do.  So you may be 
                 interested in knowing (fi you don't already) that the CDC is a great place to get your hands on clean, free 
                 data sets that can be quite massive.  In addition to thanking them, I would also like to thank Michelle 
-                Chandra, whose bl.ocks.org US map snippets came in handy, as well as Trang Tran, whose d3-colorbar also 
-                also added a nice touch. The original GitHub repository is at: https://github.com/ttdtrang/d3-colorbar.  
-                The data munging was done wtih Python3 in a Jupyter Notebook using Pandas and the linear regression models 
+                Chandra, whose bl.ocks.org <a href="http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922" target="_blank">US map</a> 
+                came in handy, as well as Trang Tran, whose <a href="https://github.com/ttdtrang/d3-colorbar" target="_blank">d3-colorbar</a> also 
+                also added a nice touch. The GeoJSON source data (from the US census bureau) came via <a href="http://eric.clst.org/tech/usgeojson/" target="_blank">the 
+                helpful site</a> by Eric Celeste, with some helpul hints from <a href="https://observablehq.com/@floledermann/drawing-maps-from-geodata-in-d3"
+                target="_blank">a helpful article</a> by Florian Ledermann. 
+            </p>
+            <p>
+                The data munging was done wtih Python3 in a Jupyter Notebook using Pandas, SciPy.stats and the linear regression models 
                 from scikit-learn, and the visualization was done with a big chunk of d3.js (v5).  Hint:  pure d3 is great on 
                 your own time because it will pay you back with better graphics skills, but if someone else is paying by the 
                 hour, use Plotly.js if you can!  Finally, I couldn't have been good enough with these tools to consider doing 
