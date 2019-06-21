@@ -1,0 +1,327 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Local CSS-->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Load D3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <title>About this Visualization</title>
+  </head>
+  <body>
+        <!--Collapsable navigation bar: common to all pages-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+          <img src="../static/images/Guenthner-extra-small.png" width="28" height="35" class="d-inline-block align-top rounded-circle mr-3" alt="">
+          <a class="navbar-brand" href="https://andrewguenthner.com">Andrew Guenthner</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Metro Health Trends <span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              <li class="nav-item-dropdown">
+                  <a class="nav-link dropdown-toggle text-light" href="#" id="SlideMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Pages
+                  </a>
+                <div class="dropdown-menu dropdown-menu-right" id="#SlideMenu">
+                  <a class="dropdown-item" href="about.html">About</a>
+                  <a class="dropdown-item" href="summary.html">Summary Graphs</a>
+                  <a class="dropdown-item" href="index.html">Metro Visualization</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!--Main body on summary page, graphs -->
+        <!-- Title Area-->
+        <div class="container-fluid" id="title-area">
+          <div class="row" id="row-1">
+              <div class="col-12 col-md-6" id="title-box">
+                <h2>About ... </h2>
+                <p> If you want to dig a little deeper, you are in the right place
+                </p>
+              </div>
+              <div class="col-12 col-md-6" id="info-box">
+                <h2>More Information</h2>
+                <ul>
+                  <li>See data for <a href="index.html">individual metro areas</a>.</li>
+                  <li>See <a href="summary.html">summary data</a>.</li>
+                </ul>
+              </div>
+            </div>
+        </div>
+        <!-- Background and credits -->
+        <div class="container-fluid" id="source-area">
+            <h3>About the Data</h3>
+        <p>
+            The United States <a href="https://www.cdc.gov/" target="_blank">Centers for Disease Control</a> maintains a database of 
+            <a href="https://www.cdc.gov/brfss/" target="_blank">behavioral health risk factors survey data</a>.  This data is freely available
+            for <a href="https://chronicdata.cdc.gov/Behavioral-Risk-Factors/Behavioral-Risk-Factors-Selected-Metropolitan-Area/j32a-sa6u" target="_blank">
+            download</a>a.  Numerous <a href="https://www.cdc.gov/brfss/brfssprevalence/index.html" target="_blank">visualizations</a> are also available.
+        </p>
+        <p>
+            Most geographic visualizations either capture current values on a chloropleth or heat map,
+            or they capture trends using a line chart.  Sometimes, though, it is useful to
+            see both the spatial and temporal trends in one graphic, which is why this 
+            visualization tool was made.
+        </p>
+        <p>
+            For this tool, ten specific indicators were chosen based on the recorded summary 
+            of CDC BRFSS survey responses.  Eight of these indicators come directly from specific categories 
+            directly computed by the CDC and made available as part of the data.
+        </p>
+        <p> 
+            In addition, two new categories were used for this visualization.  For body mass index,
+            the CDC uses a 5-category response that records overweight and obesity prevalence as 
+            separate categories.  For this dataset, both categories were combined into a single
+            overweight / obese category.
+        </p>
+        <p>
+            The raw data tracks the portion of the population who have ever had their cholesterol checked, 
+            and the portion of the population who have ever had their cholesterol checked *and* 
+            been told that it was high.  For this visualization, the prevalence of
+            high cholesterol was estimated simply by taking the fraction who had been told their
+            cholesterol was high and dividing by the fraction of people ever tested.  Using this approach as a quantitaive estimate 
+            implies that these two factors are independent, which may not be true.  As a qualitative indicator, though, 
+            it seems reasonable. 
+        </p>
+        <p>
+            The specific questions and answers used were:
+        </p>
+        <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Question ID</th>
+                    <th scope="col">Question Text</th>
+                    <th scope="col">Answer IDs</th>
+                    <th scope="col">How Answer Was Used</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>_HCVU651</td>
+                    <td>Adults aged 18-64 who have any kind of health care coverage </td>
+                    <td>RESP046 "Yes" (+CDC calculation)</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>BLOODCHO</td>
+                    <td>Adults who have ever had their blood pressure checked</td>
+                    <td>RESP046 "Yes"</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>_TOTINDA</td>
+                    <td>During the past month, did you participate in any physical activities? </td>
+                    <td>RESP046 "Yes"</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>DRNKANY5</td>
+                    <td>Adults who have had at least one drink of alcohol within the past 30 days</td>
+                    <td>RESP046 "Yes" (CDC calculation) </td>
+                    <td>"Yes" / Total as estimated by CDC</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">5</th>
+                    <td>_RFSMOK</td>
+                    <td>Adults who are current smokers (per CDC calculation)</td>
+                    <td>RESP046 "Yes"</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">6</th>
+                    <td>_RFHLTH</td>
+                    <td>Health Status</td>
+                    <td>RESP061 ("Good" or better) (CDC calculated)</td>
+                    <td>"Good" or better / Total as estimated by collected</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">7</th>
+                    <td>Custom (based on _BMI5CAT)</td>
+                    <td>Body Mass Index 5-category</td>
+                    <td>"RESP039" and "RESP040" (CDC calculations)</td>
+                    <td>Body Mass Index > 25.0 / Total (based on sum of 25.5-29.9 and 30.0+ categories)</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">8</th>
+                    <td>DIABETE3</td>
+                    <td>Have you ever been told by a doctor that you have diabetes?</td>
+                    <td>RESP046 "Yes"</td>
+                    <td>"Yes" / Total as estimated by CDC</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">9</th>
+                    <td>_RFHYPE5</td>
+                    <td>Adults who have been told they have high blood pressure</td>
+                    <td>RESP046 "Yes" (+CDC calculation)</td>
+                    <td> "Yes" / Total as estimated by CDC</td>
+                    </tr>
+                    <th scope="row">10</th>
+                    <td>Custom (_RFCHOL & BLOODCHO)</td>
+                    <td>Adults who have been told blood cholesterol was high / Adults who have ever had it checked </td>
+                    <td>Custom (based on multiple RESP046 "Yes")</td>
+                    <td>_RFCHOL "Yes" / Total divided by BLOODCHO "Yes" / Total</td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+        <div class="container-fluid" id="trends-area">
+            <h3>About the Trends</h3>
+        <p>
+            Trends in health indicators and behavioral risk factors are clearly important to 
+            try and understand, but how can we visualize them easily?  For this tool, I chose a 
+            categorization approach.  If you look at the data, you wll see that over 7 years, 
+            the trends can be more complex than simply an increase or a decrease.  In Charlotte, NC 
+            for instance, diabetes and overweight prevalences appear to have crept up steadily, 
+            while the prevalence of smokers dropped in the last 3-4 years after holding steady 
+            for the first 3-4 years.  You will also notice that the data has some noise, and 
+            most year-to-year changes are well within the margin of error, so, with only 7 years 
+            of data, complex time-series analysis is hard to justify.
+        </p>
+        <p>
+            Ideally, what would be nice is to have something that goes a step beyond just a positive or 
+            negative trend, something that could help identify the locales where more interesting changes 
+            may be taking place.  To accomplish that, the positive and negative trends have been divided 
+            into three sub-classes, "speeding up", "steady", and "slowing/reversing".  This was done by 
+            comparing linear and quadratic time-series model fits.  For the linear cases, an analysis of variance 
+            was performed based on the reported means and estimated variances of the data series.  Where ANOVA 
+            indicated a change with a Type I error probability of 5% or less, the trend was classified as 
+            positive (progress) or negative (decline) based on the difference in "best fit" values (using least squares regressio 
+            with inverse variance weighting), and based on common assumptions about what constituted a 
+            "healthy" change.  Specifically, increases in diabetes, hypertension, overweight/obesity, and 
+            high blood cholesterol prevalence were "unhealthy", as were increases in alcohol consumption and smoking 
+            prevalence.  When these trends are described with the term "decline", it means that they indicate a decline 
+            in the health of the population, not that the prevalence itself is declining.  I have always tried to make this
+            distinction clear in the visualizations.  Increases in physical activity, blood cholesterol screening, health insurance coverage, and
+            self-reported general health were considered "healthy".  
+        </p>
+        <p>
+            Once a trend was established as significant, the adjusted squared Pearson correlation coefficients for the 
+            linear and quadratic time-dependent models were compared.  If the quadratic fit gave a higher adjusted R-squared, then the 
+            absolute value of the estimated slope (vs. time) at the first and last year were compared.  A higher absolute 
+            value of the slope was deemed "speeding up" (or "accelerating"), while a lower value was classified as "slowing/reversing".  Note 
+            that speeding up vs. slowing down can be determined independently from whether or not a reversal is 
+            indicated in the trend, but to keep things simple the slowing / reversing effects were lumped together 
+            as described.  If the linear (in time) fit provided a higher adjusted R-squared, then the trend was classified as 
+            improving or declining "steadily".  
+        </p>
+        <p>
+            If the results on the "summary" page are examined, you will see that most trends tended to fall into the "steady" 
+            category.  This is useful as it fulfills the purpose of pointing out what may be the more interesting trends.  For 
+            instance, for smoking prevalence, out of almost 200 metro areas with a discernible trend, only 17 were classified as 
+            "accelerating improvement / progress speeding up" while only two were classified as having a 
+            "decline speeding up" / "accelerating decline".  A look at the map page will show that many of the 17 
+            areas where progress has accelerated lately are in Kentucky, Tennessee, and the Carolinas -- which gives an 
+            interesting insight into what may be a recently emerging health trend in the heart of tobacco country. (To see 
+            this for yourself, click on almost any metro area, then find the graph for smoking -- click the "behaviors" 
+            radio button if you don't see it -- then click on "compare trends", or, if you are quite unlucky and 
+            chose one of the two out of about 250 metro areas where no smoking data is available, just click on a different 
+            metro area and the graph will populate with data.)
+        </p>
+        <p>
+            One of the two metro areas where the smoking trend is an "accelerating decline" is my former home of Akron, OH.  I will use 
+            it to briefly mention some of the limitations of this visualization approach.  To find Akron, if you are not an 
+            expert in geography, and you don't feel like reading all the tooltips, you could take a side trip to a map server, or 
+            with the smoking trends still displayed, you could look click on one of the two darkest brown dots on the screen.  Hint:  Akron 
+            is the harder dot to find, being obstructed on most screens by other nearby metros.  Alas, making the metro "dots" large enough to 
+            click on easily makes a few of them more difficult to find if you are looking for one in particular.  Thus, a search box is a good 
+            choice for a future feature.  If you do manage to look at the data for Akron, you will notice there are four data points for most 
+            measures.  Four is an interesting number as it does allow for an adjusted R-squared comparison between linear and quadratic 
+            models, but with only four points an L-,  U-,  or V-shaped pattern can happen by chance quite frequently, which means that a larger than normal 
+            number of fits are misclassified as non-linear.  You'll notice quite a few trends in Akron classified as non-linear.  You may also 
+            notice that the trends in smoking and alcohol consumption are quite similar, yet the smoking trend is classified as a 
+            "decline (in health) speeding up" because the 2015 prevalence is slightly higher than the 2011 prevalence, while for alcohol use,
+            the trend is merely "progress slowing/reversing" because the 2015 prevalence is slightly lower than the 2011 prevalence.  Thus, the 
+            non-linear trends, although doing a good job of making the hunt for interesting data easier, need to be interpreted with more caution!  
+        </p>
+        </div>
+        <div class="container-fluid" id="stats-area">
+            <h3>About the Statistics</h3>
+        <p>
+            Please note that the statistical methods used here are reasonable choices 
+            for "exploratory grade" analysis.  They are not "publication grade" and not 
+            intended for publication and peer review (sometimes data can simply be informative 
+            and -- academics, avert your eyes! -- fun).  
+        </p>
+        <p>
+            The reason for the "exploratory" grade involve two simplifications made with the data. 
+            First, the complex sample design used to get population estimates by CDC was not taken into 
+            account.  When, for instance, it is reported that about 15% of respondents in Austin were 
+            current smokers, this does not mean that 15% of survey respondents answered yes.  About 15% 
+            answered yes, but then the CDC adjusted the proportion to take into account the characteristics 
+            of the sample, in order to estimate what the responses would have been for a perfectly 
+            representative sample.  If interested, pleae feel free to read all about it on the CDC 
+            website.  
+        </p>
+        <p>
+            What the above means for statistics is that the sampling errors are not what one would 
+            normally calculate for a given number of responses.  In many cases, the CDC has helpfully 
+            provided 95% confidence intervals, but from that we can only approximate the expected variance 
+            in the measurements.  Which leads us to simplification #2:  for this analysis, the response data 
+            is assumed to be normally distributed.  These data were collected from surveys, often with several
+            hundred to several thousand responses, so the calculated variance in responses based on the 
+            binomial distribution should be well-approximated by a normal distribution.  The complex sampling 
+            design, however, may introduce unexpected features in the distribution.  If you want to do 
+            publication-quality statistics, you should read the CDC's published papers (or ask them about it).  
+        </p>
+        <p> 
+            Where this matters most is in the custom categories (overweight and high cholesterol prevalence).  
+            For these categories, the error bars you see are 95% confidence intervals based on assumptions of normality as well 
+            as independence of the component measurements and a disregard of the complex sampling design.  To see how much 
+            this matters, I compared the CDC's own multi-category derived error estimates with ones I computed using 
+            the above simplifications.  The results agreed within about 10%, but did not coincide perfectly.  Thus, the error 
+            bars on those two categories should be treated as approximate.  Otherwise, the error bars correspond to 
+            the 95% confidence limits reported by the CDC, and as long as you simply take them at face value and don't 
+            try to further manipulate them for statistical purposes, they should be reliable.  
+        </p>
+        </div>
+        <div class="container-fluid" id="thanks">
+            <h3>Thanks!</h3>
+            <p>If you're still reading after all that, then you probably like data as much as I do.  So you may be 
+                interested in knowing (fi you don't already) that the CDC is a great place to get your hands on clean, free 
+                data sets that can be quite massive.  In addition to thanking them, I would also like to thank Michelle 
+                Chandra, whose bl.ocks.org <a href="http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922" target="_blank">US map</a> 
+                came in handy, as well as Trang Tran, whose <a href="https://github.com/ttdtrang/d3-colorbar" target="_blank">d3-colorbar</a> also 
+                also added a nice touch. The GeoJSON source data (from the US census bureau) came via <a href="http://eric.clst.org/tech/usgeojson/" target="_blank">the 
+                helpful site</a> by Eric Celeste, with some helpul hints from <a href="https://observablehq.com/@floledermann/drawing-maps-from-geodata-in-d3"
+                target="_blank">a helpful article</a> by Florian Ledermann. 
+            </p>
+            <p>
+                The data munging was done wtih Python3 in a Jupyter Notebook using Pandas, SciPy.stats and the linear regression models 
+                from scikit-learn, and the visualization was done with a big chunk of d3.js (v5).  Hint:  pure d3 is great on 
+                your own time because it will pay you back with better graphics skills, but if someone else is paying by the 
+                hour, use Plotly.js if you can!  Finally, I couldn't have been good enough with these tools to consider doing 
+                all this as a quick project without Danny Clifford and his fellow instructors at the UC Berkeley Data Analytics 
+                program.  If you like Excel but would love to take it to the next level quickly, it's worth the effort!
+            </p>
+        </div>
+        <div class="container mt-2 mt-md-5 text-light bg-secondary">
+          Last updated 06-20-2019 by Andrew Guenthner.  Released under the 
+          <a class="container-link text-warning" href="https://opensource.org/licenses/MIT" target="_blank">
+              MIT Open Source License</a>, with some elements governed by specific licenses.  Please consult the project documentation
+              on <a href="https://github.com/andrewguenthner/metro_health_trends" target="_blank">Github</a> for details.
+    <!-- Regular JavaScript -->
+    <script type="text/javascript" src="../static/js/summary-app.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

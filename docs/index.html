@@ -1,0 +1,114 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Local CSS-->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Load D3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+    <title>Metro Health Trends from BRFSS</title>
+  </head>
+  <body>
+        <!--Collapsable navigation bar: common to all pages-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+          <img src="../static/images/Guenthner-extra-small.png" width="28" height="35" class="d-inline-block align-top rounded-circle mr-3" alt="">
+          <a class="navbar-brand" href="https://andrewguenthner.com">Andrew Guenthner</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Metro Health Trends <span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              <li class="nav-item-dropdown">
+                  <a class="nav-link dropdown-toggle text-light" href="#" id="SlideMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Pages
+                  </a>
+                <div class="dropdown-menu dropdown-menu-right" id="#SlideMenu">
+                  <a class="dropdown-item" href="about.html">About</a>
+                  <a class="dropdown-item" href="summary.html">Summary Graphs</a>
+                  <a class="dropdown-item" href="index.html">Metro Visualization</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!--Main body on landing page, grid for maps-->
+    <div class="alert alert-info alert-dismissible">Hover over a circle on the map to identify a metropolitan area by name.
+      Click on the circle to show the area's 2011-2017 health indicators.  On each graph, you can click on a 
+      data point to make a comparison by metro area appear on the map.  You can also click on "compare trends" 
+      to see the trend type for each metro area.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+    </div>
+    <!-- Title info area-->
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <h2 style="text-align:center">Health Indicators by Metro Area</h2>
+        </div>
+        <div class="col-12 col-sm-4">
+          <strong>Show: </strong>
+          <input type="radio" name="displaySet" value="behaviors" id="behaviors" checked>   
+          <label for="behaviors"><strong>Behaviors</strong></label>
+          <input type="radio" name="displaySet" value="risks" id="risks">
+          <label for="risks"><strong>Risks</strong></label>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Map and charts area-->
+    <div class="container">
+      <div class="row row-1">
+        <div class="col-8">
+          <div class="h-100" id="map_0"></div>
+        </div>
+        <div class="col-4">
+          <div class="h-50" id="ts_1">Select a circle on the map <br> to show data for a metropolitan area.</div>
+          <div class="h-50" id="ts_2">Select a circle on the map <br> to show data for a metropolitan area.</div>
+        </div>
+        <!-- Force next columns to break to new line at sm breakpoint and up -->
+        <div class="w-100 d-none d-sm-block"></div>
+      </div> <!--row 1-->
+      <div class="row row-2">
+        <div class="col-4">
+          <div class="h-100" id="ts_3">Select a circle on the map <br> to show data for a metropolitan area.</div>
+        </div>
+        <div class="col-4">
+          <div class="h-100" id="ts_4">Select a circle on the map <br> to show data for a metropolitan area.</div>
+        </div>
+        <div class="col-4 d-block">
+          <div class="h-100" id="ts_5">Select a circle on the map <br> to show data for a metropolitan area.</div>
+        </div>
+        <div class="w-100 d-block"></div>
+      </div> <!-- 'row' class-->
+    </div>  <!-- 'container' class -->
+    <!-- Regular JavaScript -- put here so that page layout is locked prior to drawing footer-->
+        <script type="text/javascript" src="../static/js/colorbar.js"></script>
+        <script type="text/javascript" src="../static/js/app.js"></script>
+    <!-- Page footer-->
+    <div class="container mt-2 mt-md-5 text-light bg-secondary">
+      Last updated 06-20-2019 by Andrew Guenthner.  Released under the 
+      <a class="container-link text-warning" href="https://opensource.org/licenses/MIT" target="_blank">
+          MIT Open Source License</a>, with some elements governed by specific licenses.  Please consult the project documentation
+          on <a href="https://github.com/andrewguenthner/metro_health_trends" target="_blank">Github</a> for details.
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
